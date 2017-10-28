@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 
 // Print array
-void read_nums(int nums[]) {
+void print_array(int nums[]) {
   int i = 0;
   for (; i < 10; i++) {
     printf("nums[%d]: %d\n", i, nums[i]);
@@ -22,7 +22,7 @@ int main() {
   close(fd);
   
   printf("Generating random numbers...\n");
-  read_nums(nums);
+  print_array(nums);
 
   printf("\nWriting numbers to file...\n\n");
 
@@ -39,7 +39,7 @@ int main() {
   close(fd);
     
   printf("Verification that written values are the same:\n");
-  read_nums(nums2);
+  print_array(nums2);
   
   return 0;
 }
