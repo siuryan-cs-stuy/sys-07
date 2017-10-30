@@ -15,6 +15,12 @@ void print_array(int nums[]) {
 int main() {
 
   int fd = open("/dev/random", O_RDONLY);
+
+  if (fd < 0) {
+    printf("Error: %s\n", strerror(errno));
+    return 0;
+  }
+
   int nums[10];
   int nums2[10];
   
