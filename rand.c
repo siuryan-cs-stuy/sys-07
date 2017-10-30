@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
 
 // Print array
 void print_array(int nums[]) {
@@ -24,8 +26,12 @@ int main() {
   int nums[10];
   int nums2[10];
   
-  read(fd, nums, sizeof(nums));
-  close(fd);
+  if (read(fd, nums, sizeof(nums)) < 0) {
+    printf("Error: %s\n", strerror(errno));
+  }
+  if (close(fd) < 0) {
+    printf("Error: %s\n", strerror(errno));
+  }
   
   printf("Generating random numbers...\n");
   print_array(nums);
@@ -34,15 +40,35 @@ int main() {
 
   // Create and Write
   fd = open("foo", O_CREAT | O_WRONLY, 0644);
-  write(fd, nums, sizeof(nums));
-  close(fd);
+
+  if (fd < 0) {
+    printf("Error: %s\n", strerror(errno));
+    return 0;
+  }
+
+  if (write(fd, nums, sizeof(nums)) < 0) {
+    printf("Error: %s\n", strerror(errno));
+  }
+  if (close(fd) < 0) {
+    printf("Error: %s\n", strerror(errno));
+  }
   
   printf("Reading numbers from file...\n\n");
 
   // Read
   fd = open("foo", O_RDONLY);
-  read(fd, nums2, sizeof(nums2));
-  close(fd);
+
+  if (fd < 0) {
+    printf("Error: %s\n", strerror(errno));
+    return 0;
+  }
+
+  if (read(fd, nums2, sizeof(nums2)) < 0) {
+    printf("Error: %s\n", strerror(errno));
+  }
+  if (close(fd) < 0) {
+    printf("Error: %s\n", strerror(errno));
+  }
     
   printf("Verification that written values are the same:\n");
   print_array(nums2);
